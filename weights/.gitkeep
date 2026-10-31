@@ -1,0 +1,4 @@
+# Directory for Francisv2 GPT-SoVITS model weights:
+# - Francisv2-e15.ckpt (155 MB)
+# - Francisv2_e8_s344.pth (85 MB)
+# Run `python download_weights.py` to download and verify them automatically from GitHub Releases.

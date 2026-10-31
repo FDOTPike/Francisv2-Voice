@@ -1,0 +1,67 @@
+================================================================================
+FRANCISV2 VOICE MODEL & AI VOICE AGENT — DUAL LICENSE WITH MANDATORY ATTRIBUTION
+================================================================================
+
+Copyright (c) 2026 Francis Pike (@FDOTPike)
+Product URL: https://github.com/FDOTPike/Francisv2-Voice
+
+This project is FREE TO USE (for personal, academic, research, and commercial
+projects) under the condition that you reference and credit the product
+("Francisv2 by Francis Pike") in any distribution, application, video, audio
+broadcast, or derivative work that uses this voice model or software.
+
+Required Attribution Notice:
+  "Voice generated using Francisv2 by Francis Pike
+   (https://github.com/FDOTPike/Francisv2-Voice)"
+
+--------------------------------------------------------------------------------
+PART 1: VOICE MODEL WEIGHTS & AUDIO ASSETS
+(Creative Commons Attribution 4.0 International — CC BY 4.0)
+--------------------------------------------------------------------------------
+Applies to:
+  - weights/Francisv2-e15.ckpt
+  - weights/Francisv2_e8_s344.pth
+  - ref/ref.wav and ref/ref_transcript.txt
+  - samples/francisv2_sample.wav and generated audio outputs
+
+You are free to:
+  * Share — copy and redistribute the material in any medium or format for any
+    purpose, even commercially.
+  * Adapt — remix, transform, and build upon the material for any purpose,
+    even commercially.
+
+Under the following terms:
+  * Attribution — You must give appropriate credit to "Francisv2 by Francis Pike"
+    with a link to https://github.com/FDOTPike/Francisv2-Voice, provide a link
+    to the CC BY 4.0 license (https://creativecommons.org/licenses/by/4.0/), and
+    indicate if changes were made. You may do so in any reasonable manner, but
+    not in any way that suggests the licensor endorses you or your use.
+  * No additional restrictions — You may not apply legal terms or technological
+    measures that legally restrict others from doing anything the license permits.
+
+Full legal text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+--------------------------------------------------------------------------------
+PART 2: SOURCE CODE & SCRIPTS (MIT License)
+--------------------------------------------------------------------------------
+Applies to:
+  - voice_agent.py, download_weights.py, start_francisv2_server.bat, scripts/*
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice, the Francisv2 product attribution notice, and this
+permission notice shall be included in all copies or substantial portions of
+the Software.
+
+THE SOFTWARE AND VOICE MODEL ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO
+EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.

@@ -1,0 +1,19 @@
+# Large pretrained model weights are hosted on GitHub Releases (v1.0.0)
+# and kept locally in weights/ via download_weights.py
+weights/*.ckpt
+weights/*.pth
+
+# Keep the weights directory tracked via .gitkeep
+!weights/.gitkeep
+
+# Python cache & environments
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.env
+
+# Temporary output files
+francisv2_output.wav
+francisv2_test_output.wav

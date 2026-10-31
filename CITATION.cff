@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+title: "Francisv2: Real-Time Australian English Voice Model & AI Voice Agent (GPT-SoVITS)"
+message: "If you use the Francisv2 voice model, reference audio, or voice agent scripts in your project, please cite and reference it as below."
+type: software
+authors:
+  - family-names: "Pike"
+    given-names: "Francis"
+    alias: "FDOTPike"
+repository-code: "https://github.com/FDOTPike/Francisv2-Voice"
+url: "https://github.com/FDOTPike/Francisv2-Voice"
+version: "1.0.0"
+date-released: "2026-11-01"
+license: "CC-BY-4.0"
+keywords:
+  - voice-cloning
+  - gpt-sovits
+  - text-to-speech
+  - australian-english
+  - voice-agent
+  - real-time-tts

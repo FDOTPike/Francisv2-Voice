@@ -1,0 +1,4 @@
+requests>=2.31.0
+groq>=0.11.0
+SpeechRecognition>=3.10.4
+PyAudio>=0.2.14
