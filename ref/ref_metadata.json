@@ -1,0 +1,14 @@
+{
+  "primary_ref_name": "francis_v2_raw.wav_0012707840_0012892800.wav",
+  "primary_ref_text": "You think this guy is telling the truth? He is young as hell, Sarah, why?",
+  "aux_ref_names": [
+    "francis_v2_raw.wav_0000955840_0001150400.wav",
+    "francis_v2_raw.wav_0014018560_0014187520.wav",
+    "francis_v2_raw.wav_0014738880_0014886720.wav"
+  ],
+  "aux_ref_paths": [
+    "C:/Users/fpike/VoiceCreation/ref/ref_aux_1.wav",
+    "C:/Users/fpike/VoiceCreation/ref/ref_aux_2.wav",
+    "C:/Users/fpike/VoiceCreation/ref/ref_aux_3.wav"
+  ]
+}

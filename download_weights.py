@@ -14,14 +14,14 @@ WEIGHT_FILES = [
     {
         "filename": "Francisv2-e15.ckpt",
         "url": f"https://github.com/{REPO_SLUG}/releases/download/{RELEASE_TAG}/Francisv2-e15.ckpt",
-        "sha256": "9DC6E562BDBB339A094FFC111E0AAF49D284A418306211B210070E590F3612E9",
-        "gpt_sovits_subdir": "GPT_weights_v2",
+        "sha256": "718A3A16F720736CCDA1FA96D1DF1F5F0319CFA5B323E14EE2E067EA5F43D6E9",
+        "gpt_sovits_subdir": "GPT_weights_v2ProPlus",
     },
     {
         "filename": "Francisv2_e8_s344.pth",
         "url": f"https://github.com/{REPO_SLUG}/releases/download/{RELEASE_TAG}/Francisv2_e8_s344.pth",
-        "sha256": "F606BEA44465BAD84C00ECBCBA1CCE0AEDA6A082B5701E8EB9D927530EAB3B53",
-        "gpt_sovits_subdir": "SoVITS_weights_v2",
+        "sha256": "197658D82E7805F66FA7577F81870E63D386565C22ACBCCEA6F0345391182162",
+        "gpt_sovits_subdir": "SoVITS_weights_v2ProPlus",
     },
 ]
 
@@ -83,28 +83,27 @@ def ensure_weights(repo_root: str | None = None, gpt_sovits_dir: str | None = No
 
         # If a GPT-SoVITS installation exists, sync weights into its expected folders
         if gpt_sovits_dir and os.path.isdir(gpt_sovits_dir):
-            target_dir = os.path.join(gpt_sovits_dir, item["gpt_sovits_subdir"])
-            os.makedirs(target_dir, exist_ok=True)
-            target_path = os.path.join(target_dir, item["filename"])
-            if not os.path.exists(target_path):
+            for subdir in [item["gpt_sovits_subdir"], item["gpt_sovits_subdir"].replace("v2ProPlus", "v2")]:
+                target_dir = os.path.join(gpt_sovits_dir, subdir)
+                os.makedirs(target_dir, exist_ok=True)
+                target_path = os.path.join(target_dir, item["filename"])
                 shutil.copy2(local_path, target_path)
-                print(f"[Sync] Copied {item['filename']} -> {target_path}")
+            print(f"[Sync] Installed {item['filename']} into {gpt_sovits_dir}")
 
     # Sync reference audio & transcript to GPT-SoVITS root if present
     if gpt_sovits_dir and os.path.isdir(gpt_sovits_dir):
-        for ref_name in ["ref.wav", "ref_transcript.txt"]:
+        for ref_name in ["ref.wav", "ref_transcript.txt", "ref_aux_1.wav", "ref_aux_2.wav", "ref_aux_3.wav"]:
             src = os.path.join(repo_root, "ref", ref_name)
             dst = os.path.join(gpt_sovits_dir, ref_name)
-            if os.path.exists(src) and not os.path.exists(dst):
+            if os.path.exists(src):
                 shutil.copy2(src, dst)
-                print(f"[Sync] Copied {ref_name} -> {dst}")
 
     return resolved_paths
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Download and verify Francisv2 GPT-SoVITS voice model weights."
+        description="Download and verify Francisv2 (v2ProPlus Studio Master) GPT-SoVITS voice model weights."
     )
     parser.add_argument(
         "--gpt-sovits-dir",
@@ -114,7 +113,7 @@ def main():
     )
     args = parser.parse_args()
     ensure_weights(gpt_sovits_dir=args.gpt_sovits_dir)
-    print("\nFrancisv2 weights are ready! Please remember to credit Francisv2 (by Francis Pike) in your project.")
+    print("\nFrancisv2 Studio Master weights are ready! Please remember to credit Francisv2 (by Francis Pike) in your project.")
 
 
 if __name__ == "__main__":
