@@ -1,0 +1,36 @@
+{
+  "label": "Round 0 Baseline (v2)",
+  "wav_path": "C:\\Users\\fpike\\VoiceCreation\\samples\\iterations\\iter0_baseline.wav",
+  "sample_rate": 32000,
+  "duration_s": 11.5,
+  "metrics": {
+    "hnr_db": -0.41,
+    "cpp_db": 0.56,
+    "snr_db": 45.41,
+    "hf_flatness_fuzz": 0.00546,
+    "rolloff_95_hz": 1362.0,
+    "presence_ratio_db": -16.75,
+    "sv_cosine_sim": 0.7689,
+    "whisper_avg_logprob": -0.3247,
+    "whisper_transcript": "See you today. This is Francis V. You're running locally on GPT-SOVITS. Feel free to use this voice in your own project as long as you credit Francis V too."
+  },
+  "subscores_out_of_10": {
+    "1_harmonic_clarity": 4.58,
+    "2_defuzz_and_snr": 4.61,
+    "3_studio_bandwidth_presence": 4.23,
+    "4_speaker_timbre_fidelity": 5.75,
+    "5_articulation_intelligibility": 7.55
+  },
+  "overall_quality_score": 4.99,
+  "unbiased_diagnostics": {
+    "praat_hnr_median_db": 5.17,
+    "f0_median_hz": 119.7,
+    "adjacent_f0_steps_over_3st_pct": 0.0,
+    "valley_to_harmonic_500_4000_median_db": -6.96,
+    "valley_to_harmonic_4000_8000_median_db": -0.37,
+    "interior_quiet_median_dbfs": -55.27,
+    "leading_exact_zero_s": 0.0,
+    "trailing_exact_zero_s": 0.3,
+    "normalized_wer": 0.2963
+  }
+}

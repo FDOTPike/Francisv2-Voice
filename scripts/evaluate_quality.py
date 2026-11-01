@@ -3,9 +3,11 @@ from __future__ import annotations
 import glob
 import json
 import os
+import re
 import shutil
 import sys
 import numpy as np
+import parselmouth
 import soundfile as sf
 import torch
 import torchaudio
@@ -107,6 +109,90 @@ def evaluate_asr_clarity(wav_path: str) -> dict:
 
 def clamp(val: float, lo: float = 0.0, hi: float = 10.0) -> float:
     return float(max(lo, min(hi, val)))
+
+
+def _word_error_rate(ref_text: str, hyp_text: str) -> float:
+    def _norm(s: str) -> list[str]:
+        s = s.lower().replace("gpt-sovits", "gpt sovits").replace("g p t so vits", "gpt sovits")
+        s = s.replace("francisv2", "francis v2").replace("francis version two", "francis v2")
+        return re.findall(r"[a-z0-9']+", s)
+
+    r = _norm(ref_text)
+    h = _norm(hyp_text)
+    if not r:
+        return 0.0
+    dp = np.zeros((len(r) + 1, len(h) + 1), dtype=int)
+    for i in range(len(r) + 1):
+        dp[i, 0] = i
+    for j in range(len(h) + 1):
+        dp[0, j] = j
+    for i in range(1, len(r) + 1):
+        for j in range(1, len(h) + 1):
+            cost = 0 if r[i - 1] == h[j - 1] else 1
+            dp[i, j] = min(dp[i - 1, j] + 1, dp[i, j - 1] + 1, dp[i - 1, j - 1] + cost)
+    return float(dp[len(r), len(h)] / len(r))
+
+
+def compute_unbiased_diagnostics(y: np.ndarray, sr: int, transcript: str = "") -> dict:
+    """
+    Unbiased acoustic diagnostics per GPT 6 Astra Audit:
+      - Excludes outer exact-zero padding before computing pause floor
+      - Uses Praat autocorrelation pitch & harmonicity (no FFT/sample-rate bias)
+      - Measures stationary voiced valley-to-harmonic power density in 0.5-4 kHz and 4-8 kHz
+      - Computes normalized Word Error Rate (WER) against TARGET_SENTENCE
+    """
+    nz = np.flatnonzero(y != 0)
+    y_trim = y[nz[0] : nz[-1] + 1] if len(nz) > 0 else y
+    snd = parselmouth.Sound(y_trim.astype(np.float64), float(sr))
+    pitch = snd.to_pitch_ac(
+        time_step=0.01, pitch_floor=65.0, pitch_ceiling=350.0, very_accurate=True, voicing_threshold=0.5
+    )
+    f0 = pitch.selected_array["frequency"]
+    strength = pitch.selected_array["strength"]
+    hnr = snd.to_harmonicity_ac(time_step=0.01, minimum_pitch=65.0, silence_threshold=0.03, periods_per_window=4.5)
+    hv = hnr.values[0]
+    hv = hv[(hv > -100) & np.isfinite(hv)]
+    good_p = (f0 > 0) & (strength >= 0.6)
+    adj = good_p[1:] & good_p[:-1]
+    steps = np.abs(12.0 * np.log2(np.maximum(f0[1:], 1.0) / np.maximum(f0[:-1], 1.0)))[adj]
+
+    # Stationary inter-harmonic valley density (60 ms window, 10 ms hop)
+    n_win, hop = round(0.06 * sr), round(0.01 * sr)
+    frames_60 = np.lib.stride_tricks.sliding_window_view(y_trim, n_win)[::hop]
+    t_60 = (np.arange((len(y_trim) - n_win) // hop + 1) * hop + n_win / 2) / sr
+    hi = np.clip(np.round((t_60 - pitch.x1) / pitch.dx).astype(int), 0, max(pitch.nx - 1, 0))
+    hp = f0[hi]
+    hs = strength[hi]
+    rms_60_db = 20.0 * np.log10(np.maximum(np.sqrt(np.mean(frames_60**2, axis=1)), 1e-15))
+    thresh_db = float(np.percentile(rms_60_db, 95) - 30.0)
+    st_mask = np.r_[False, np.abs(np.diff(hp)) < 2.0] & np.r_[np.abs(np.diff(hp)) < 2.0, False]
+    good_st = (hp > 0) & (hs > 0.7) & st_mask & (rms_60_db > thresh_db)
+
+    nfft = 2 ** int(np.ceil(np.log2(n_win * 4)))
+    hz = np.fft.rfftfreq(nfft, 1.0 / sr)
+    hspec = np.abs(np.fft.rfft(frames_60[good_st] * np.hanning(n_win), n=nfft, axis=1)) ** 2
+    valleys = {}
+    for lo, hi_f in [(500, 4000), (4000, 8000)]:
+        ratios = []
+        for row, fund in zip(hspec, hp[good_st]):
+            dist = np.abs(hz / fund - np.round(hz / fund))
+            band = (hz >= lo) & (hz < hi_f)
+            harm = band & (dist <= 0.18)
+            inter = band & (dist >= 0.32)
+            ratios.append(10.0 * np.log10((np.mean(row[inter]) + 1e-20) / (np.mean(row[harm]) + 1e-20)))
+        valleys[f"valley_to_harmonic_{lo}_{hi_f}_median_db"] = round(float(np.median(ratios)), 2) if ratios else None
+
+    quiet_frames = rms_60_db[rms_60_db <= thresh_db]
+    return {
+        "praat_hnr_median_db": round(float(np.median(hv)), 2) if len(hv) else None,
+        "f0_median_hz": round(float(np.median(f0[good_p])), 1) if np.any(good_p) else None,
+        "adjacent_f0_steps_over_3st_pct": round(float(100.0 * np.mean(steps > 3.0)), 2) if len(steps) else 0.0,
+        **valleys,
+        "interior_quiet_median_dbfs": round(float(np.median(quiet_frames)), 2) if len(quiet_frames) else None,
+        "leading_exact_zero_s": round(float(nz[0] / sr), 3) if len(nz) else 0.0,
+        "trailing_exact_zero_s": round(float((len(y) - 1 - nz[-1]) / sr), 3) if len(nz) else 0.0,
+        "normalized_wer": round(_word_error_rate(TARGET_SENTENCE, transcript), 4) if transcript.strip() else 1.0,
+    }
 
 
 def evaluate_wav(wav_path: str, label: str = "") -> dict:
@@ -251,6 +337,8 @@ def evaluate_wav(wav_path: str, label: str = "") -> dict:
         },
         "overall_quality_score": round(overall_score, 2),
     }
+    if "compute_unbiased_diagnostics" in globals():
+        result["unbiased_diagnostics"] = compute_unbiased_diagnostics(y, sr, asr_res["transcript"])
     return result
 
 

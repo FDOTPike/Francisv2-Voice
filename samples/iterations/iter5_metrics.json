@@ -1,0 +1,36 @@
+{
+  "label": "Round 5 (Astra-Remediated Studio Master v2.1)",
+  "wav_path": "C:\\Users\\fpike\\VoiceCreation\\samples\\iterations\\iter5_sample.wav",
+  "sample_rate": 48000,
+  "duration_s": 9.41,
+  "metrics": {
+    "hnr_db": 0.14,
+    "cpp_db": 0.772,
+    "snr_db": 29.48,
+    "hf_flatness_fuzz": 0.00148,
+    "rolloff_95_hz": 2288.8,
+    "presence_ratio_db": -10.0,
+    "sv_cosine_sim": 0.8275,
+    "whisper_avg_logprob": -0.2365,
+    "whisper_transcript": "Today, this is France's version to running locally on GPT Soviet. Feel free to use this voice in your own projects as long as you credit France's version 2."
+  },
+  "subscores_out_of_10": {
+    "1_harmonic_clarity": 7.72,
+    "2_defuzz_and_snr": 5.6,
+    "3_studio_bandwidth_presence": 7.1,
+    "4_speaker_timbre_fidelity": 8.1,
+    "5_articulation_intelligibility": 8.44
+  },
+  "overall_quality_score": 7.19,
+  "unbiased_diagnostics": {
+    "praat_hnr_median_db": 5.72,
+    "f0_median_hz": 142.5,
+    "adjacent_f0_steps_over_3st_pct": 0.0,
+    "valley_to_harmonic_500_4000_median_db": -16.98,
+    "valley_to_harmonic_4000_8000_median_db": -3.98,
+    "interior_quiet_median_dbfs": -48.39,
+    "leading_exact_zero_s": 0.0,
+    "trailing_exact_zero_s": 0.0,
+    "normalized_wer": 0.2963
+  }
+}

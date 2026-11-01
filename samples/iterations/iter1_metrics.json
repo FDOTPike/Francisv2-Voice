@@ -1,0 +1,36 @@
+{
+  "label": "Round 1 (Curated & Conditioned References)",
+  "wav_path": "C:\\Users\\fpike\\VoiceCreation\\samples\\iterations\\iter1_sample.wav",
+  "sample_rate": 32000,
+  "duration_s": 10.08,
+  "metrics": {
+    "hnr_db": -0.12,
+    "cpp_db": 0.635,
+    "snr_db": 39.31,
+    "hf_flatness_fuzz": 0.00175,
+    "rolloff_95_hz": 2369.4,
+    "presence_ratio_db": -9.89,
+    "sv_cosine_sim": 0.8333,
+    "whisper_avg_logprob": -0.287,
+    "whisper_transcript": "G-Day. This is France's version for running locally on GPT-SOVIETS. Feel free to use this voice in your own projects as long as you credit France's version too."
+  },
+  "subscores_out_of_10": {
+    "1_harmonic_clarity": 6.17,
+    "2_defuzz_and_snr": 6.3,
+    "3_studio_bandwidth_presence": 6.16,
+    "4_speaker_timbre_fidelity": 8.33,
+    "5_articulation_intelligibility": 7.93
+  },
+  "overall_quality_score": 6.7,
+  "unbiased_diagnostics": {
+    "praat_hnr_median_db": 4.1,
+    "f0_median_hz": 144.7,
+    "adjacent_f0_steps_over_3st_pct": 0.26,
+    "valley_to_harmonic_500_4000_median_db": -9.25,
+    "valley_to_harmonic_4000_8000_median_db": -0.48,
+    "interior_quiet_median_dbfs": -56.44,
+    "leading_exact_zero_s": 0.0,
+    "trailing_exact_zero_s": 0.28,
+    "normalized_wer": 0.3333
+  }
+}

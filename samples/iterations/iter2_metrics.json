@@ -1,0 +1,36 @@
+{
+  "label": "Round 2 (Retrained v2ProPlus + s1v3)",
+  "wav_path": "C:\\Users\\fpike\\VoiceCreation\\samples\\iterations\\iter2_sample.wav",
+  "sample_rate": 32000,
+  "duration_s": 8.62,
+  "metrics": {
+    "hnr_db": -0.18,
+    "cpp_db": 0.711,
+    "snr_db": 29.5,
+    "hf_flatness_fuzz": 0.00158,
+    "rolloff_95_hz": 2479.3,
+    "presence_ratio_db": -9.12,
+    "sv_cosine_sim": 0.8229,
+    "whisper_avg_logprob": -0.1811,
+    "whisper_transcript": "Today, this is France's version 2 running locally on GPT-Soviet. Feel free to use this voice in your own projects as long as you credit France's version 2."
+  },
+  "subscores_out_of_10": {
+    "1_harmonic_clarity": 7.53,
+    "2_defuzz_and_snr": 5.54,
+    "3_studio_bandwidth_presence": 6.12,
+    "4_speaker_timbre_fidelity": 7.92,
+    "5_articulation_intelligibility": 8.99
+  },
+  "overall_quality_score": 6.95,
+  "unbiased_diagnostics": {
+    "praat_hnr_median_db": 5.3,
+    "f0_median_hz": 137.2,
+    "adjacent_f0_steps_over_3st_pct": 0.0,
+    "valley_to_harmonic_500_4000_median_db": -11.14,
+    "valley_to_harmonic_4000_8000_median_db": -0.58,
+    "interior_quiet_median_dbfs": -59.06,
+    "leading_exact_zero_s": 0.0,
+    "trailing_exact_zero_s": 0.25,
+    "normalized_wer": 0.2963
+  }
+}
